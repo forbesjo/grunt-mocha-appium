@@ -22,8 +22,12 @@ function run(options, cb) {
       cb(new Error('Could not start Appium.'), child);
     }
 
-    child.stderr.on('data', function(data){
-      console.log(data.toString());
+    child.stderr.on('data', function(data) {
+      var parsedData = data.toString();
+      console.log(parsedData);
+      if (parsedData && parsedData.match(/deprecated/)) {
+        return;
+      }
       badExit();
     })
 
